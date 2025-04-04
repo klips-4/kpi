@@ -1,0 +1,24 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+}
+
+body,html {
+  height: 100%;
+  margin: 0;
+}
+
+.border-radius {
+  border-radius: 15px;
+}
+
+.btn-custom {
+  background: rgba(131,212,247, 0.5);
+}
+
+.btn-custom:hover {
+  background: rgb(56,88,101, 0.5);
+
+}
