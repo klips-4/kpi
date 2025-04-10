@@ -11,7 +11,7 @@ body,html {
 }
 
 .border-radius {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .btn-custom {
@@ -21,4 +21,8 @@ body,html {
 .btn-custom:hover {
   background: rgb(56,88,101, 0.5);
 
+}
+
+.bg-body-dark {
+  background-color:rgb(42,41,36);
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="vh-100 d-flex justify-content-center align-items-center display">
+  <div class="vh-100 d-flex justify-content-center align-items-center display position-relative">
     <div class="background"></div>
 <!--    <div class="position-absolute top-0 start-0 mt-4 ms-4 d-flex flex-row align-items-center">-->
 <!--      <img src="../assets/logo.png" alt="Logo" class="img-fluid mx-3 w-100" style="max-width: 70px;">-->

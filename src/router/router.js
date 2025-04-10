@@ -22,4 +22,13 @@ const router = createRouter({
     ]
 })
 
+// router.beforeEach(async (to) => {
+//     const publicPage=['/login', '/signup'];
+//     const authRequired = !publicPage.includes(to.path);
+//
+//     if (authRequired){
+//         return '/login'
+//     }
+// })
+
 export default router;

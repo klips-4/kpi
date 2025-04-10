@@ -2,10 +2,7 @@
 <span>main</span>
 </template>
 
-<script>
-export default {
-  name: "MainPage.vue"
-}
+<script setup>
 </script>
 
 <style scoped>
