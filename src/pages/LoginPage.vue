@@ -1,12 +1,5 @@
 <template>
-
-
-
-
-
-  <!-- Section: Design Block -->
   <section class="position-absolute">
-    <!-- Jumbotron -->
     <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: rgba(208,208,208,0.3)">
       <div class="container">
         <div class="row gx-lg-5 align-items-center">
@@ -34,7 +27,7 @@
                         </div>
                         <div class="form-outline mb-4">
                           <input
-                              type="text"
+                              type="password"
                               class="form-control sans-serif"
                               v-model="password"
                               placeholder="Пароль">
@@ -45,6 +38,7 @@
                         >
                           Продолжить
                         </button>
+                        <span class="mt-2 text-danger">{{ authStore.errorMessage }}</span>
                       </form>
                     </div>
                   </div>
@@ -55,14 +49,22 @@
         </div>
       </div>
     </div>
-    <!-- Jumbotron -->
   </section>
-  <!-- Section: Design Block -->
 
 </template>
 
 <script setup>
+import {ref, watch} from "vue";
+import {useAuthStore} from "@/stores/authStore.js";
 
+const authStore = useAuthStore();
+
+const username = ref('');
+const password = ref('');
+
+watch(useAuthStore.errorMessage, (data) => {
+  console.log(data)
+})
 </script>
 
 <style scoped>

@@ -2,35 +2,19 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="row w-100 align-items-center">
-        <div class="col-md-6 text-center text-white">
-            <div class="row">
-              <span class="fw-bold fs-3">Оценка эффективности (KPI)</span>
-            </div>
-          <div class="row">
-            <span class="fs-5">сотрудников ЦИТ</span>
-          </div>
+        <div class="col-md-4 text-center text-white">
+          <span class="fw-bold fs-3 align-middle">Оценка эффективности (KPI)</span>
         </div>
-        <div class="col-md-6 text-white">
-          <div class="row">
-            <div class="col-md-12 text-end">
-              <span class="mx-4 fs-5 text-nowrap">Начальник отдела ОСА</span>
-              <span class="fs-5">Надолько Д.Н.</span>
-            </div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-md-12 d-flex justify-content-end gap-2">
-              <button class="btn btn-light">Рассчитать</button>
-              <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  2025
-                </button>
-              </div>
-              <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Май
-                </button>
-              </div>
-            </div>
+        <div class="col-md-4 text-center text-white">
+          <watch/>
+        </div>
+        <div class="col-md-4 text-white">
+          <div class="d-flex justify-content-end gap-3 align-items-center">
+            <span class="fs-5 fw-bold">Начальник отдела ОСА</span>
+            <span class="fs-5 fw-bold">Надолько Д.Н.</span>
+            <span class="fs-4">
+              <i @click=authStore.logout() class="bi bi-box-arrow-right"></i>
+            </span>
           </div>
         </div>
       </div>
@@ -40,6 +24,10 @@
 
 <script setup>
 
+import Watch from "./Watch.vue";
+import {useAuthStore} from "@/stores/authStore.js";
+
+const authStore = useAuthStore()
 </script>
 
 <style scoped>
