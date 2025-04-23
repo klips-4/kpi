@@ -16,7 +16,7 @@
                 <div class="modal-body p-5">
                   <div class="tab-content">
                     <div class=" ">
-                      <form class="text-center" action="">
+                      <form class="text-center" >
                         <p class="fs-4">Вход в систему</p>
                         <div class="form-outline mb-4">
                           <input
@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import {useAuthStore} from "@/stores/authStore.js";
 
 const authStore = useAuthStore();
@@ -62,9 +62,7 @@ const authStore = useAuthStore();
 const username = ref('');
 const password = ref('');
 
-watch(useAuthStore.errorMessage, (data) => {
-  console.log(data)
-})
+
 </script>
 
 <style scoped>

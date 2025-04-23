@@ -3,14 +3,15 @@
     <div class="row g-1 h-auto">
       <div class="col-md-6">
         <div class="h-100 d-flex justify-content-center justify-content-md-start align-items-center px-4">
-            <span class="fw-bold fs-2">Сотрудники отдела ОСА</span>
+          <span class="fw-bold fs-2">Сотрудники отдела ОСА</span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="h-100 d-flex  justify-content-md-end justify-content-center align-items-center px-3">
           <button class="btn btn-outline-dark fs-5 mx-1 mb-2 mb-md-0">Рассчитать</button>
           <button class="btn btn-outline-dark fs-5 dropdown-toggle mb-2 mb-md-0" data-bs-toggle="dropdown">2025</button>
-          <button class="btn btn-outline-dark fs-5 dropdown-toggle mx-1 mb-2 mb-md-0" data-bs-toggle="dropdown">Май</button>
+          <button class="btn btn-outline-dark fs-5 dropdown-toggle mx-1 mb-2 mb-md-0" data-bs-toggle="dropdown">Май
+          </button>
         </div>
       </div>
 
@@ -26,46 +27,17 @@
                 <th scope="col" colspan="1" class="border-end border-black">Выполнение плана мероприятий</th>
                 <th scope="col" colspan="1" class="border-end border-black">Полученных/выполненных заявок</th>
                 <th scope="col" colspan="1" class="border-end border-black">Уровень исполнения заявок</th>
-                <th scope="col" colspan="1" class="border-black">Исполнение поручений</th>
                 <th scope="col" colspan="1" class="border-black">Рационализат. предложения</th>
                 <th scope="col" colspan="1" class="border-black">KPI Май</th>
               </tr>
               </thead>
               <tbody class="table border-black border-bottom text-center fs-5">
-              <tr>
-                <td class="border-end border-bottom border-black align-middle text-center">Надолько Д.Н.</td>
+              <tr v-for="(employee, index) in mainStore.employees" :key="index">
+                <td @click="getEmployeeDetails(employee.id)" class="border-end border-bottom border-black align-middle text-center cursor-pointer">{{employee.firstName}} {{employee.lastName}}</td>
                 <td class="border-end border-bottom border-black">100/100</td>
-                <td class="border-end border-bottom border-black">140/140</td>
+                <td class="border-end border-bottom border-black">{{employee.receivedAppeals}} / {{employee.completedAppeals}}</td>
                 <td class="border-end border-bottom border-black">100 %</td>
-                <td class="border-end border-bottom border-black">75 %</td>
-                <td class="border-end border-bottom border-black">92 %</td>
-                <td class="border-bottom border-black">90 %</td>
-              </tr>
-              <tr>
-                <td class="border-end border-bottom border-black align-middle text-center">Мустафина М.Р.</td>
-                <td class="border-end border-bottom border-black">20/20</td>
-                <td class="border-end border-bottom border-black">30/35</td>
-                <td class="border-end border-bottom border-black">86 %</td>
-                <td class="border-end border-bottom border-black">75 %</td>
-                <td class="border-end border-bottom border-black">100 %</td>
-                <td class="border-bottom border-black">90 %</td>
-              </tr>
-              <tr>
-                <td class="border-end border-bottom border-black align-middle text-center">Абдуллин К.П.</td>
-                <td class="border-end border-bottom border-black">20/20</td>
-                <td class="border-end border-bottom border-black">30/35</td>
-                <td class="border-end border-bottom border-black">86 %</td>
-                <td class="border-end border-bottom border-black">75 %</td>
-                <td class="border-end border-bottom border-black">100 %</td>
-                <td class="border-bottom border-black">90 %</td>
-              </tr>
-              <tr>
-                <td class="border-end border-bottom border-black align-middle text-center">Шарипов Г.Ф.</td>
-                <td class="border-end border-bottom border-black">20/20</td>
-                <td class="border-end border-bottom border-black">30/35</td>
-                <td class="border-end border-bottom border-black">86 %</td>
-                <td class="border-end border-bottom border-black">75 %</td>
-                <td class="border-end border-bottom border-black">100 %</td>
+                <td class="border-end border-bottom border-black">2 %</td>
                 <td class="border-bottom border-black">90 %</td>
               </tr>
               </tbody>
@@ -226,6 +198,22 @@
 <script setup>
 import BarChart from "../components/Charts/BarChart.vue";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import {ref, onMounted} from "vue";
+import {useMainStore} from "@/stores/mainStore.js";
+import router from "@/router/router.js";
+
+const mainStore = useMainStore()
+
+onMounted(() => {
+  mainStore.fetchEmployees()
+})
+
+
+const getEmployeeDetails = (employeeId) => {
+  console.log(employeeId)
+  router.push({ name: 'details', params: { employeeId } });
+}
+
 </script>
 
 <style scoped>

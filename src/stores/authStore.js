@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {fetchWrapper} from "../helpers/fetch-wrapper.js";
 import router from "../router/router.js";
+import {jwtDecode} from "jwt-decode";
 
 const baseURL = `http://localhost:5092`;
 
@@ -9,8 +10,13 @@ export const useAuthStore = defineStore('auth', {
         user: JSON.parse(localStorage.getItem('user')),
         returnUrl: null,
         errorMessage: null,
-        emailStatus: null
+        emailStatus: null,
+        decodedUser: null
     }),
+
+    getters: {
+        currentUser: (state) => state.decodedUser || {}
+    },
     actions: {
         async login(username, password) {
             try {
@@ -18,11 +24,12 @@ export const useAuthStore = defineStore('auth', {
                     Username: username,
                     Password: password
                 });
-                this.user = user
-                localStorage.setItem('user', JSON.stringify(user))
+                this.user = user;
+                this.decodeJwtToken();
+                localStorage.setItem('user', JSON.stringify(user));
                 router.push(this.returnUrl || '/main');
             } catch (error) {
-                 this.errorMessage = error
+                this.errorMessage = error;
 
                 setTimeout(() => {
                     this.errorMessage = null;
@@ -33,8 +40,24 @@ export const useAuthStore = defineStore('auth', {
 
         async logout() {
             this.user = null;
+            this.decodedUser = null;
             localStorage.removeItem('user')
             router.push('/login');
+        },
+
+        decodeJwtToken() {
+            if (!this.user?.token) {
+                return null;
+            }
+            let token = this.user.token;
+            try {
+                this.decodedUser = jwtDecode(token);
+                return this.decodedUser
+
+            } catch (err) {
+                console.log('Error decoding token: ', err);
+                return null;
+            }
         }
     }
 })
