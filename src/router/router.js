@@ -15,6 +15,12 @@ const router = createRouter({
             component: MainPage
         },
         {
+            path: '/details/:employeeId',
+            name: 'details',
+            meta: {layout: AuthLayout},
+            component: () => import('../pages/EmployeePage.vue')
+        },
+        {
             path: '/login',
             name: 'login',
             meta: {layout: unAuthLayout},
@@ -23,7 +29,7 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach(async (to) => {
+router.beforeEach( async(to) => {
     const publicPage=['/login'];
     const authRequired = !publicPage.includes(to.path);
     const auth= useAuthStore();
