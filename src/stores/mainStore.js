@@ -8,12 +8,17 @@ const baseURL = `http://localhost:5092`;
 
 export const useMainStore = defineStore('main', {
     state: () => ({
-        employees: [],
-        employeeDetails: []
+        employees: {
+            employeeStatistics: [],
+            tasks: 0
+        },
+        employeeDetails: [],
+        employeeLabors: [],
+        innovationScores: {},
     }),
 
     actions: {
-        async fetchEmployees() {
+        async fetchEmployeeData() {
             try {
                 this.employees = await fetchWrapper.get(`${baseURL}/api/main`, null);
             } catch (error) {
@@ -25,13 +30,26 @@ export const useMainStore = defineStore('main', {
             }
         },
 
-        async fetchEmployeeDetails(employeeId) {
+        getInnovationScore(employeeId) {
+            return this.innovationScores[employeeId] ?? 75;
+        },
+
+        async fetchEmployeeGeneralData(employeeId) {
             try {
                 this.employeeDetails = await fetchWrapper.get(`${baseURL}/api/employees/${employeeId}`, null);
             } catch (error) {
                 this.errorMessage = error;
             }
+        },
+        async fetchEmployeeLaborActivity(employeeId) {
+            try {
+                this.employeeLabors = await fetchWrapper.get(`${baseURL}/api/employees/${employeeId}/activities`, null);
+                console.log(this.employeeLabors)
+            } catch (error) {
+                this.errorMessage = error;
+            }
         }
+
     }
 })
 

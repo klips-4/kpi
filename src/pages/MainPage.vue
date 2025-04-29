@@ -22,23 +22,33 @@
           <div class="table-responsive w-100">
             <table class="table table-borderless">
               <thead>
-              <tr class="text-center align-middle border-bottom border-black">
+              <tr class="text-center align-middle border-bottom border-black fs-4">
                 <th scope="col" colspan="1" class="border-end border-black"></th>
-                <th scope="col" colspan="1" class="border-end border-black">Выполнение плана мероприятий</th>
+
                 <th scope="col" colspan="1" class="border-end border-black">Полученных/выполненных заявок</th>
                 <th scope="col" colspan="1" class="border-end border-black">Уровень исполнения заявок</th>
                 <th scope="col" colspan="1" class="border-black">Рационализат. предложения</th>
                 <th scope="col" colspan="1" class="border-black">KPI Май</th>
               </tr>
               </thead>
-              <tbody class="table border-black border-bottom text-center fs-5">
-              <tr v-for="(employee, index) in mainStore.employees" :key="index">
-                <td @click="getEmployeeDetails(employee.id)" class="border-end border-bottom border-black align-middle text-center cursor-pointer">{{employee.firstName}} {{employee.lastName}}</td>
-                <td class="border-end border-bottom border-black">100/100</td>
-                <td class="border-end border-bottom border-black">{{employee.receivedAppeals}} / {{employee.completedAppeals}}</td>
-                <td class="border-end border-bottom border-black">100 %</td>
-                <td class="border-end border-bottom border-black">2 %</td>
-                <td class="border-bottom border-black">90 %</td>
+              <tbody class="table border-black border-bottom text-center fs-4">
+              <tr v-for="(employee, index) in mainStore.employees.employeeStatistics" :key="index">
+                <td @click="getEmployeeDetails(employee.employeeId)"
+                    class="border-end border-bottom border-black align-middle text-center cursor-pointer">
+                  {{ employee.lastName }} {{ employee.firstName }} {{ employee.middleName }}
+                </td>
+                <td class="border-end border-bottom border-black">{{ employee.receivedAppeals }} /
+                  {{ employee.completedAppeals }}
+                </td>
+                <td class="border-end border-bottom border-black">{{getLevelApplicationExecution(employee.completedAppeals,employee.receivedAppeals)+ ' ' + '%'}}</td>
+
+
+                <td class="border-end border-bottom border-black text-danger cursor-pointer" @click="editMode = true">
+
+                </td>
+
+
+                <td class="border-bottom border-black fw-bolder">{{ getKPI(employee.employeeId, employee.receivedAppeals, employee.completedAppeals) }}</td>
               </tr>
               </tbody>
             </table>
@@ -198,21 +208,48 @@
 <script setup>
 import BarChart from "../components/Charts/BarChart.vue";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {useMainStore} from "@/stores/mainStore.js";
 import router from "@/router/router.js";
 
 const mainStore = useMainStore()
 
 onMounted(() => {
-  mainStore.fetchEmployees()
+  mainStore.fetchEmployeeData()
 })
 
 
 const getEmployeeDetails = (employeeId) => {
-  console.log(employeeId)
-  router.push({ name: 'details', params: { employeeId } });
+  router.push({name: 'details', params: {employeeId}});
 }
+
+const getLevelApplicationExecution = (completed,received) => {
+ if (received == 0) return 0;
+  return ((completed / received) * 100).toFixed(0);
+}
+
+const levelsExecution = computed(() => {
+  return mainStore.employees.employeeStatistics.map(employee => {
+    return {
+      employeeId: employee.employeeId,
+      levelExecution: getLevelApplicationExecution(employee.completedAppeals, employee.receivedAppeals)
+    };
+  });
+});
+
+const getKPI = (employeeId, receivedAppeals, completedAppeals) => {
+  console.log(mainStore.employees.tasks)
+  const employeeLevel = levelsExecution.value.find(e => e.employeeId === employeeId)?.levelExecution || 0;
+
+  let part1 = (receivedAppeals*3)/(mainStore.employees.tasks)
+  let part2 = completedAppeals/receivedAppeals
+  let part3 = 75/100
+
+  let total = (part1+part2+part3)/3*100
+
+  return total.toFixed(0);
+}
+
 
 </script>
 
