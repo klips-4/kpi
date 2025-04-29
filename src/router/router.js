@@ -18,7 +18,20 @@ const router = createRouter({
             path: '/details/:employeeId',
             name: 'details',
             meta: {layout: AuthLayout},
-            component: () => import('../pages/EmployeePage.vue')
+            component: () => import('../pages/EmployeePage.vue'),
+            redirect: { name: 'general' },
+            children: [
+                {
+                    path: 'general',
+                    name: 'general',
+                    component: () => import('../components/GeneralInformatinEmployee.vue')
+                },
+                {
+                    path: 'activity',
+                    name: 'activity',
+                    component: () => import('../components/LaborActivity.vue')
+                },
+            ]
         },
         {
             path: '/login',
@@ -29,12 +42,12 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach( async(to) => {
-    const publicPage=['/login'];
+router.beforeEach(async (to) => {
+    const publicPage = ['/login'];
     const authRequired = !publicPage.includes(to.path);
-    const auth= useAuthStore();
+    const auth = useAuthStore();
 
-    if (authRequired && !auth.user){
+    if (authRequired && !auth.user) {
         auth.returnUrl = to.fullPath;
         return '/login'
     }
