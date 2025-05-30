@@ -9,6 +9,10 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes: [
         {
+            path: '/',
+            redirect: '/login'
+        },
+        {
             path: '/main',
             name: 'main',
             meta: {layout: AuthLayout},

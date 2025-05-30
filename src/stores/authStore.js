@@ -52,6 +52,7 @@ export const useAuthStore = defineStore('auth', {
             let token = this.user.token;
             try {
                 this.decodedUser = jwtDecode(token);
+                console.log(this.decodedUser)
                 return this.decodedUser
 
             } catch (err) {

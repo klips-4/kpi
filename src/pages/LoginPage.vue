@@ -5,7 +5,7 @@
         <div class="row gx-lg-5 align-items-center">
           <div class="col-lg-6 mb-5 mb-lg-0">
             <p class="fs-4" style="color: hsl(0,0%,100%);  text-align: justify;">
-              Автоматизированная система KPI сотрудников — это мощный инструмент для оценки и повышения эффективности
+              Программный комплекс оценки эффективности сотрудников — это мощный инструмент для повышения эффективности
               команды. Начните трансформацию уже сегодня!
             </p>
           </div>
@@ -16,7 +16,7 @@
                 <div class="modal-body p-5">
                   <div class="tab-content">
                     <div class=" ">
-                      <form class="text-center" >
+                      <form @submit.prevent="handleLogin" class="text-center" >
                         <p class="fs-4">Вход в систему</p>
                         <div class="form-outline mb-4">
                           <input
@@ -63,6 +63,12 @@ const username = ref('');
 const password = ref('');
 
 
+const handleLogin = async () => {
+  try {
+    await authStore.login(username.value, password.value);
+  } catch (error) {
+  }
+};
 </script>
 
 <style scoped>

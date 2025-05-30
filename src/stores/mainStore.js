@@ -2,8 +2,6 @@ import {defineStore} from "pinia";
 import {fetchWrapper} from "../helpers/fetch-wrapper.js";
 import router from "@/router/router.js";
 
-
-
 const baseURL = `http://localhost:5092`;
 
 export const useMainStore = defineStore('main', {
@@ -12,13 +10,14 @@ export const useMainStore = defineStore('main', {
             employeeStatistics: [],
             tasks: 0
         },
+        periodKPI: [],
         employeeDetails: [],
         employeeLabors: [],
         innovationScores: {},
     }),
 
     actions: {
-        async fetchEmployeeData() {
+        async fetchEmployeeData(month=null, year=null) {
             try {
                 this.employees = await fetchWrapper.get(`${baseURL}/api/main`, null);
             } catch (error) {
@@ -30,8 +29,12 @@ export const useMainStore = defineStore('main', {
             }
         },
 
-        getInnovationScore(employeeId) {
-            return this.innovationScores[employeeId] ?? 75;
+        async fetchEmployeePeriodKPI(month=null, year=null) {
+            try {
+                this. periodKPI = await fetchWrapper.get(`${baseURL}/api/main/kpi/period`, null);
+            } catch (error) {
+                this.errorMessage = error;
+            }
         },
 
         async fetchEmployeeGeneralData(employeeId) {
@@ -44,12 +47,25 @@ export const useMainStore = defineStore('main', {
         async fetchEmployeeLaborActivity(employeeId) {
             try {
                 this.employeeLabors = await fetchWrapper.get(`${baseURL}/api/employees/${employeeId}/activities`, null);
-                console.log(this.employeeLabors)
             } catch (error) {
                 this.errorMessage = error;
             }
-        }
+        },
 
+        async updateRationalization({id, value, month, year}) {
+            try {
+                const response = await fetchWrapper.put(`${baseURL}/api/main/${id}/update-rationalization`, {
+                    EmployeeId: id,
+                    RazionalizationScore: value.toString(),
+                    month: month,
+                    year: year
+
+                })
+            } catch (error) {
+                console.error('Update error:', error);
+                throw error;
+            }
+        }
     }
 })
 
