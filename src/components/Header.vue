@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row w-100 align-items-center">
         <div class="col-md-4 text-center text-white">
-          <span class="fw-bold fs-3 align-middle">Оценка эффективности (KPI)</span>
+          <span @click="router.push({name: 'main'})" class="fw-bold fs-3 align-middle cursor-pointer">Оценка эффективности (KPI)</span>
         </div>
         <div class="col-md-4 text-center text-white">
           <watch/>
@@ -36,6 +36,8 @@
 import Watch from "./Watch.vue";
 import {useAuthStore} from "@/stores/authStore.js";
 import {onMounted} from "vue";
+
+import router from "@/router/router.js";
 
 onMounted(() => {
   if (!authStore.decodedUser) {
