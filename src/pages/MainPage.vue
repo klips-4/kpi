@@ -397,6 +397,7 @@ const authStore = useAuthStore()
 
 const newRationalizationValue = ref('')
 
+
 onMounted(() => {
   mainStore.fetchEmployeeData()
   mainStore.fetchEmployeePeriodKPI()
@@ -436,6 +437,7 @@ watch([selectedMonth, selectedYear], ([newMonth, newYear]) => {
 const saveRationalization = async (employeeId) => {
   isEdit.value = false
   try {
+
     await mainStore.updateRationalization({
       id: employeeId,
       value: newRationalizationValue.value,

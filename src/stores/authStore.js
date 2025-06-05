@@ -3,7 +3,7 @@ import {fetchWrapper} from "../helpers/fetch-wrapper.js";
 import router from "../router/router.js";
 import {jwtDecode} from "jwt-decode";
 
-const baseURL = `http://localhost:5092`;
+ // const baseURL = `http://81.30.200.39:780`;
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(username, password) {
             try {
-                const user = await fetchWrapper.post(`${baseURL}/api/auth/login`, {
+                const user = await fetchWrapper.post(`/api/auth/login`, {
                     Username: username,
                     Password: password
                 });
@@ -50,9 +50,9 @@ export const useAuthStore = defineStore('auth', {
                 return null;
             }
             let token = this.user.token;
+            console.log(this.token)
             try {
                 this.decodedUser = jwtDecode(token);
-                console.log(this.decodedUser)
                 return this.decodedUser
 
             } catch (err) {

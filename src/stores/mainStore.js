@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {fetchWrapper} from "../helpers/fetch-wrapper.js";
 import router from "@/router/router.js";
 
-const baseURL = `http://localhost:5092`;
+// const baseURL = `http://81.30.200.39:780`;
 
 export const useMainStore = defineStore('main', {
     state: () => ({
@@ -19,7 +19,7 @@ export const useMainStore = defineStore('main', {
     actions: {
         async fetchEmployeeData(month=null, year=null) {
             try {
-                this.employees = await fetchWrapper.get(`${baseURL}/api/main`, null);
+                this.employees = await fetchWrapper.get(`/api/main`, null);
             } catch (error) {
                 this.errorMessage = error;
 
@@ -31,7 +31,7 @@ export const useMainStore = defineStore('main', {
 
         async fetchEmployeePeriodKPI(month=null, year=null) {
             try {
-                this. periodKPI = await fetchWrapper.get(`${baseURL}/api/main/kpi/period`, null);
+                this. periodKPI = await fetchWrapper.get(`/api/main/kpi/period`, null);
             } catch (error) {
                 this.errorMessage = error;
             }
@@ -39,14 +39,14 @@ export const useMainStore = defineStore('main', {
 
         async fetchEmployeeGeneralData(employeeId) {
             try {
-                this.employeeDetails = await fetchWrapper.get(`${baseURL}/api/employees/${employeeId}`, null);
+                this.employeeDetails = await fetchWrapper.get(`/api/employees/${employeeId}`, null);
             } catch (error) {
                 this.errorMessage = error;
             }
         },
         async fetchEmployeeLaborActivity(employeeId) {
             try {
-                this.employeeLabors = await fetchWrapper.get(`${baseURL}/api/employees/${employeeId}/activities`, null);
+                this.employeeLabors = await fetchWrapper.get(`/api/employees/${employeeId}/activities`, null);
             } catch (error) {
                 this.errorMessage = error;
             }
@@ -54,9 +54,10 @@ export const useMainStore = defineStore('main', {
 
         async updateRationalization({id, value, month, year}) {
             try {
-                const response = await fetchWrapper.put(`${baseURL}/api/main/${id}/update-rationalization`, {
+
+                const response = await fetchWrapper.put(`/api/main/${id}/update-rationalization`, {
                     EmployeeId: id,
-                    RazionalizationScore: value.toString(),
+                    RazionalizationScore: value,
                     month: month,
                     year: year
 
